@@ -19,6 +19,8 @@ enum LastPingStatus {
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    colored::control::set_override(true);
+
     let mut last_ping: LastPingStatus = LastPingStatus::Ok;
     
     loop {
