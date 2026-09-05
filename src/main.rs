@@ -8,7 +8,7 @@ use humantime::format_duration;
 
 static DNS_ADDR: &str = "clorine.ru";
 static LOOP_INTERVAL: u64 = 1000;
-static BAD_PING: u64 = 40;
+static BAD_PING: u64 = 64;
 
 #[derive(PartialEq)]
 enum LastPingStatus {
@@ -74,18 +74,24 @@ async fn ping_ip(ip: IpAddr) -> Result<Duration, Error> {
 
 async fn notify_connection_ok() -> Result<()> {
     println!("[{}] Connection Ok", "WARNING!".green());
-    Notification::new().summary("Statutil").body("Connection Ok").show_async().await?;
+    if let Err(e) = Notification::new().summary("Statutil").body("Connection Ok").show_async().await {
+        eprintln!("[{}] Notification Error: {}", "ERROR".red(), e);
+    };
     Ok(())
 }
 
 async fn notify_bad_connection(ping: Duration) -> Result<()> {
     println!("[{}] Bad Connection ({})", "WARNING!".yellow(), format_duration(ping));
-    Notification::new().summary("Statutil").body(&format!("Bad Connection ({})", format_duration(ping))).show_async().await?;
+    if let Err(e) = Notification::new().summary("Statutil").body(&format!("Bad Connection ({})", format_duration(ping))).show_async().await {
+        eprintln!("[{}] Notification Error: {}", "ERROR".red(), e);
+    };
     Ok(())
 }
 
 async fn notify_no_connection() -> Result<()> {
     println!("[{}] No Connection", "WARNING!".red());
-    Notification::new().summary("Statutil").body("NO CONNECTION").show_async().await?;
+    if let Err(e) = Notification::new().summary("Statutil").body("NO CONNECTION").show_async().await {
+        eprintln!("[{}] Notification Error: {}", "ERROR".red(), e);
+    };
     Ok(())
 }
