@@ -20,24 +20,24 @@ pub async fn main() -> Result<()> {
         let addr = match modules::net::get_ip_by_host(&args.host).await? {
             Some(ip) => ip,
             None => {
-                modules::notify::notify_no_connection().await?;
+                modules::notify::notify_no_connection(&args).await?;
                 continue;
             }
         };
         match net::ping_ip(addr).await {
             Ok(ping) => {
                 if ping > Duration::from_millis(args.bad_ping_border) {
-                    modules::notify::notify_bad_connection(ping).await?;
+                    modules::notify::notify_bad_connection(ping, &args).await?;
                     last_ping = LastPingStatus::Bad;
                 } else {
                     if last_ping != LastPingStatus::Ok {
-                        modules::notify::notify_connection_ok().await?;
+                        modules::notify::notify_connection_ok(&args).await?;
+                        last_ping = LastPingStatus::Ok;
                     }
-                    last_ping = LastPingStatus::Ok;
                 }
             }
             Err(_e) => {
-                modules::notify::notify_no_connection().await?;
+                modules::notify::notify_no_connection(&args).await?;
                 last_ping = LastPingStatus::NoConnection;
             }
         };
