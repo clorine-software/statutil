@@ -633,6 +633,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "netstatutil"
+version = "1.0.2"
+dependencies = [
+ "anyhow",
+ "clap",
+ "colored",
+ "humantime",
+ "notify-rust",
+ "surge-ping",
+ "tokio",
+]
+
+[[package]]
 name = "no-std-net"
 version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1017,19 +1030,6 @@ checksum = "c3d1e2c7f27f8d4cb10542a02c49005dbd6e93095799d6f3be745fae9f8fedd4"
 dependencies = [
  "libc",
  "windows-sys",
-]
-
-[[package]]
-name = "statutil"
-version = "1.0.1"
-dependencies = [
- "anyhow",
- "clap",
- "colored",
- "humantime",
- "notify-rust",
- "surge-ping",
- "tokio",
 ]
 
 [[package]]

@@ -12,8 +12,7 @@ pub async fn notify_connection_ok(args: &Args) -> Result<()> {
         if let Err(e) = Notification::new()
             .summary("Statutil")
             .body("Connection Ok")
-            .show_async()
-            .await
+            .show()
         {
             eprintln!("[{}] Notification Error: {}", "ERROR".red(), e);
         };
@@ -31,8 +30,7 @@ pub async fn notify_bad_connection(ping: Duration, args: &Args) -> Result<()> {
         if let Err(e) = Notification::new()
             .summary("Statutil")
             .body(&format!("Bad Connection ({})", format_duration(ping)))
-            .show_async()
-            .await
+            .show()
         {
             eprintln!("[{}] Notification Error: {}", "ERROR".red(), e);
         };
@@ -46,8 +44,7 @@ pub async fn notify_no_connection(args: &Args) -> Result<()> {
         if let Err(e) = Notification::new()
             .summary("Statutil")
             .body("NO CONNECTION")
-            .show_async()
-            .await
+            .show()
         {
             eprintln!("[{}] Notification Error: {}", "ERROR".red(), e);
         };
