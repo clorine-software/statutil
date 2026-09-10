@@ -21,6 +21,7 @@ pub async fn main() -> Result<()> {
             Some(ip) => ip,
             None => {
                 notify::notify_no_connection(&args, notify::NoConnectionLevel::Dns).await?;
+                sleep(Duration::from_millis(args.loop_interval)).await;
                 continue;
             }
         };
