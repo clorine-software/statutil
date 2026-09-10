@@ -6,6 +6,11 @@ use tokio::time::Duration;
 
 use crate::modules::parser::Args;
 
+pub enum NoConnectionLevel {
+    Dns,
+    Ping
+}
+
 pub async fn notify_connection_ok(args: &Args) -> Result<()> {
     println!("[{}] Connection Ok", "WARNING!".green());
     if !args.silent {
@@ -38,8 +43,8 @@ pub async fn notify_bad_connection(ping: Duration, args: &Args) -> Result<()> {
     Ok(())
 }
 
-pub async fn notify_no_connection(args: &Args) -> Result<()> {
-    println!("[{}] No Connection", "WARNING!".red());
+pub async fn notify_no_connection(args: &Args, level: NoConnectionLevel) -> Result<()> {
+    println!("[{}] No Connection{}", "WARNING!".red(), match level { NoConnectionLevel::Dns => " (DNS)", NoConnectionLevel::Ping => ""});
     if !args.silent {
         if let Err(e) = Notification::new()
             .summary("NetStatUtil")
