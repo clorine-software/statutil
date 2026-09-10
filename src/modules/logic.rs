@@ -24,6 +24,7 @@ pub async fn main() -> Result<()> {
                 continue;
             }
         };
+
         match net::ping_ip(addr).await {
             Ok(ping) => {
                 if ping > Duration::from_millis(args.bad_ping_border) {

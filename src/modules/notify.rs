@@ -10,7 +10,7 @@ pub async fn notify_connection_ok(args: &Args) -> Result<()> {
     println!("[{}] Connection Ok", "WARNING!".green());
     if !args.silent {
         if let Err(e) = Notification::new()
-            .summary("Statutil")
+            .summary("NetStatUtil")
             .body("Connection Ok")
             .show()
         {
@@ -28,7 +28,7 @@ pub async fn notify_bad_connection(ping: Duration, args: &Args) -> Result<()> {
     );
     if !args.silent {
         if let Err(e) = Notification::new()
-            .summary("Statutil")
+            .summary("NetStatUtil")
             .body(&format!("Bad Connection ({})", format_duration(ping)))
             .show()
         {
@@ -42,7 +42,7 @@ pub async fn notify_no_connection(args: &Args) -> Result<()> {
     println!("[{}] No Connection", "WARNING!".red());
     if !args.silent {
         if let Err(e) = Notification::new()
-            .summary("Statutil")
+            .summary("NetStatUtil")
             .body("NO CONNECTION")
             .show()
         {
