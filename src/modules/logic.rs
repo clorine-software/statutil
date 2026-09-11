@@ -1,6 +1,6 @@
 use crate::modules::{self, net, notify, parser};
 use anyhow::Result;
-use tokio::{sync::Mutex, time::{Duration, sleep}};
+use tokio::{io::{self, AsyncWriteExt}, sync::Mutex, time::{Duration, sleep}};
 use std::sync::Arc;
 
 #[derive(PartialEq)]
@@ -21,7 +21,9 @@ pub async fn main() -> Result<()> {
         let args_clone = args.clone();
         let last_ping_mutex = Arc::clone(&last_ping_arc);
         tokio::spawn(async move {
-            if let Err(e) = ping_logic(&args_clone, &last_ping_mutex).await { eprintln!("Ping logic error: {}", e) };
+            if let Err(e) = ping_logic(&args_clone, &last_ping_mutex).await {
+                if let Err(io_e) = io::stderr().write_all(format!("Ping logic error: {}", e).as_bytes()).await { println!("Stderr write error: {}\nPing logic error: {}", io_e, e)}
+            };
         });
 
         sleep(Duration::from_millis(args.loop_interval)).await;
