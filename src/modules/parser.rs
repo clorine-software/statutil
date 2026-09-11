@@ -1,7 +1,7 @@
 use anyhow::Result;
 use clap::Parser;
 
-#[derive(Parser)]
+#[derive(Parser, Clone)]
 #[command(version, about, long_about = None)]
 pub struct Args {
     #[arg(short, long, default_value_t = String::from("clorine.ru"))]
